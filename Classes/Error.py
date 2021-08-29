@@ -1,7 +1,4 @@
 
-from nltk.util import pr
-
-
 class Error:
     def __init__(self, message = "An Error occured", details = "UnExpected", serverity = "error") -> None:
         self.message = message
