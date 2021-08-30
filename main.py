@@ -1,49 +1,56 @@
-from nltk.util import pr
 import Classes.Voice as Voice
 import Classes.Lexer as Lexer
 import Classes.Parser as Parser
+import Extension
 from Classes.CleanUp import CleanUp, StringUp
 
-from neuralintents import GenericAssistant
+from nltk.util import pr
+import os
 
 START_COMMAND = 'hey jarvis'
 
-def greeting():
-    Voice.TalkVoice('Im doing great, sir.')
-
-network = GenericAssistant("Commands.json", intent_methods={
-    'status': greeting
-})
-
-#network.train_model()
-#network.save_model()
-
-network.load_model()
+for file in os.listdir('./Commands'):
+    if file != "__pycache__":
+        Extension.load_command(file)
 
 while True:
-    text = Voice.TakeVoice().lower()
+    #text = Voice.TakeVoice().lower()
+    text = input("> ").lower()
+    
     if text == "exit":
         break
     
-    if text.count("hey jarvis") > 0:
+    if text.count(START_COMMAND) > 0:
         
         text = CleanUp(text[text.find(START_COMMAND):])
         tokens = Lexer.run(text)
         parsed, error = Parser.run(tokens)
         
         if not error and parsed != None and parsed['Command'] != None:
-            network.request(StringUp(parsed['Command'].tokens))
+            #network.request(StringUp(parsed['Command'].tokens))
             
             # Execute command
         else:
-            Voice.TalkVoice('Hi sir.', True, True)
+            Voice.TalkVoice('', True, True)
             
             response_command = Voice.TakeVoice()
             if response_command == None or response_command == "":
                 Voice.TalkVoice('I did not understand you, sir.', True)
                 continue
             
-            network.request(response_command)
+            text = CleanUp(response_command)
+            tokens = Lexer.run(text)
+            parsed, error = Parser.run(tokens)
+            text = StringUp(parsed['Command'].tokens)
+            
+            #result = network.request(text)
+            if result == "DidntUnderstand":
+                
+                for module in Extension.get_modules():
+                    if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(text):
+                        getattr(module, 'VoiceCommand')(parsed['Command'].tokens)
+                        break
+                
     
     #if error:
     #    Voice.TalkVoice('There was an error')

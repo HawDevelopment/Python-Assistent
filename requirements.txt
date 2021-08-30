@@ -5,3 +5,4 @@ speech_recognition
 neuralintents
 importlib
 datetime
+wikipedia

@@ -15,6 +15,48 @@
         "how are you jarvis"
       ],
       "responses": [""]
+    },
+    {
+      "tag": "date_today",
+      "patterns": [
+        "what day is it",
+        "what day is it jarvis",
+        "what day is today",
+        "what day is today jarvis",
+        "what is the current day",
+        "what is the current day jarvis"
+      ],
+      "responses": [""]
+    },
+    {
+      "tag": "date_tomorrow",
+      "patterns": ["what day is tomorrow", "what day is tomorrow jarvis"],
+      "responses": [""]
+    },
+    {
+      "tag": "date_yesterday",
+      "patterns": ["what day was yesterday", "what day was yesterday jarvis"],
+      "responses": [""]
+    },
+    {
+      "tag": "date_week",
+      "patterns": [
+        "what week is it",
+        "what week is it jarvis",
+        "what week number is it",
+        "what week number is it jarvis"
+      ],
+      "responses": [""]
+    },
+    {
+      "tag": "date_month",
+      "patterns": ["what month is it", "what month is it jarvis"],
+      "responses": [""]
+    },
+    {
+      "tag": "wikipedia",
+      "patterns": ["WHO_WOLD_EVER_SAY_THIS?"],
+      "responses": [""]
     }
   ]
 }

@@ -10,7 +10,7 @@ engine = pyttsx3.init('sapi5')
 # Should use settings
 voices = engine.getProperty('voices')
 
-if voices[2].id == "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_enGB_GeorgeM":
+if voices[2] != None and voices[2].id == "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_enGB_GeorgeM":
     engine.setProperty('voice', voices[2].id) # 2 is george
 else:
     engine.setProperty('voice', voices[0].id)
