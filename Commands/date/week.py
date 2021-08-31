@@ -3,6 +3,6 @@ import Classes.Voice as Voice
 
 def VoiceCommand():
     today = datetime.datetime.now()
-    Voice.TakeVoice(
+    Voice.TalkVoice(
         "Current week number is " + today.strftime("%U") + " sir."
     )

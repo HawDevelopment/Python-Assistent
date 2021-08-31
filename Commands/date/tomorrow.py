@@ -3,6 +3,6 @@ import Classes.Voice as Voice
 
 def VoiceCommand():
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
-    Voice.TakeVoice(
-        "Tomorrow is " + tomorrow.day + " sir."
+    Voice.TalkVoice(
+        "Tomorrow is " + str(tomorrow.day) + " sir."
     )

@@ -4,14 +4,18 @@ import Classes.Parser as Parser
 import Extension
 from Classes.CleanUp import CleanUp, StringUp
 
-from nltk.util import pr
+#from nltk.util import pr
 import os
+from Intents import Intent
+
 
 START_COMMAND = 'hey jarvis'
 
 for file in os.listdir('./Commands'):
     if file != "__pycache__":
         Extension.load_command(file)
+
+intent = Intent("Commands.json", Extension.get_commands())
 
 while True:
     #text = Voice.TakeVoice().lower()
@@ -26,10 +30,9 @@ while True:
         tokens = Lexer.run(text)
         parsed, error = Parser.run(tokens)
         
-        if not error and parsed != None and parsed['Command'] != None:
-            #network.request(StringUp(parsed['Command'].tokens))
-            
-            # Execute command
+        response_question = None
+        if not error and parsed != None and parsed.get('Command') != None:
+            response_question = StringUp(parsed['Command'].tokens)
         else:
             Voice.TalkVoice('', True, True)
             
@@ -41,15 +44,15 @@ while True:
             text = CleanUp(response_command)
             tokens = Lexer.run(text)
             parsed, error = Parser.run(tokens)
-            text = StringUp(parsed['Command'].tokens)
-            
-            #result = network.request(text)
-            if result == "DidntUnderstand":
-                
-                for module in Extension.get_modules():
-                    if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(text):
-                        getattr(module, 'VoiceCommand')(parsed['Command'].tokens)
-                        break
+            response_command = StringUp(parsed['Command'].tokens)
+        
+        
+        result = intent.request(text)
+        if result == None:
+            for name, module in Extension.get_modules().items():
+                if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(text) == True:
+                    Extension.get_commands()[name]([*parsed['Command'].tokens])
+                    break
                 
     
     #if error:

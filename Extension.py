@@ -18,7 +18,7 @@ def load_command(file: str, name=None):
     
     if os.path.isdir(os.path.join("./Commands", file)):
         for new_file in os.listdir(os.path.join("./Commands", file)):
-            load_command(file + "/" + new_file, file + "_" + new_file)
+            load_command(file + "/" + new_file, file + "_" + new_file[:-3])
         return
     
     module, full_name = Loader.load_module(file, "Commands")
