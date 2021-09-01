@@ -1,8 +1,7 @@
 nltk
 pyaudio
 pyttsx3
-speech_recognition
-neuralintents
+speechrecognition
 importlib
 datetime
 wikipedia

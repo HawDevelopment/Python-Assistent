@@ -3,7 +3,7 @@ import Classes.Voice as Voice
 import Classes.CleanUp as CleanUp
 
 def VoiceCommand(tokens: list):
-    if tokens[0].word == 'search':
+    if tokens[0].word == 'search' or tokens[0].word == 'open':
         tokens.pop(0)
     
     if tokens[len(tokens) - 1].word == "jarvis":

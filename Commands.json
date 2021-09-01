@@ -62,6 +62,11 @@
       "tag": "search",
       "patterns": ["WHO_WOLD_EVER_SAY_THIS?"],
       "responses": [""]
+    },
+    {
+      "tag": "google",
+      "patterns": ["WHO_WOLD_EVER_SAY_THIS"],
+      "responses": [""]
     }
   ]
 }

@@ -18,8 +18,8 @@ for file in os.listdir('./Commands'):
 intent = Intent("Commands.json", Extension.get_commands())
 
 while True:
-    text = Voice.TakeVoice().lower()
-    #text = input("> ").lower()
+    #text = Voice.TakeVoice().lower()
+    text = input("> ").lower()
     
     if text == "exit":
         break
