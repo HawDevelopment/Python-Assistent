@@ -57,6 +57,11 @@
       "tag": "wikipedia",
       "patterns": ["WHO_WOLD_EVER_SAY_THIS?"],
       "responses": [""]
+    },
+    {
+      "tag": "search",
+      "patterns": ["WHO_WOLD_EVER_SAY_THIS?"],
+      "responses": [""]
     }
   ]
 }

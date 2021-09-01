@@ -18,8 +18,8 @@ for file in os.listdir('./Commands'):
 intent = Intent("Commands.json", Extension.get_commands())
 
 while True:
-    #text = Voice.TakeVoice().lower()
-    text = input("> ").lower()
+    text = Voice.TakeVoice().lower()
+    #text = input("> ").lower()
     
     if text == "exit":
         break
@@ -47,10 +47,10 @@ while True:
             response_command = StringUp(parsed['Command'].tokens)
         
         
-        result = intent.request(text)
+        result = intent.request(response_question)
         if result == None:
             for name, module in Extension.get_modules().items():
-                if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(text) == True:
+                if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(response_question) == True:
                     Extension.get_commands()[name]([*parsed['Command'].tokens])
                     break
                 
