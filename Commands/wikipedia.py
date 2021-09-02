@@ -16,7 +16,7 @@ def VoiceCommand(tokens: list):
     results = wikipedia.summary(text, sentences=1) 
     Voice.TalkVoice("According to Wikipedia", False)
     Voice.TalkVoice(results, False)
-    Voice.TalkVoice(", sir.", True)
+    Voice.TalkVoice(" sir.", True)
 
 def VoiceAssert(text: str):
     if text.startswith("what is"):

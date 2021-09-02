@@ -1,6 +1,7 @@
 import Classes.Voice as Voice
 import Classes.Lexer as Lexer
 import Classes.Parser as Parser
+import Classes.Settings as Settings
 import Extension
 from Classes.CleanUp import CleanUp, StringUp
 
@@ -18,8 +19,11 @@ for file in os.listdir('./Commands'):
 intent = Intent("Commands.json", Extension.get_commands())
 
 while True:
-    #text = Voice.TakeVoice().lower()
-    text = input("> ").lower()
+    try:
+        #text = Voice.TakeVoice().lower()
+        text = input("> ").lower()
+    except KeyboardInterrupt:
+        break
     
     if text == "exit":
         break
@@ -58,6 +62,8 @@ while True:
     #if error:
     #    Voice.TalkVoice('There was an error')
     #    print(error)
+
+Settings.save_settings()
 
 #Voice.TalkVoice(say_time=True)
 #Voice.TalkVoice("A bit cringe init bruv not gonna lie", say_time=True)
