@@ -1,19 +1,15 @@
-from nltk.util import pr
 import speech_recognition as sr
 import pyttsx3
 from Classes.TimeOfDay import TimeOfDay
+import Classes.Settings as Settings
 
 r = sr.Recognizer()
-m = sr.Microphone()
+m = sr.Microphone(device_index=Settings.get_setting("device index"))
 engine = pyttsx3.init('sapi5')
 
-# Should use settings
 voices = engine.getProperty('voices')
-
-if voices[2] != None and voices[2].id == "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_enGB_GeorgeM":
-    engine.setProperty('voice', voices[2].id) # 2 is george
-else:
-    engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[Settings.get_setting("voice id")].id)
+engine.setProperty('rate', Settings.get_setting("voice rate"))
 
 #for index, name in enumerate(sr.Microphone.list_microphone_names()):
 #    print("Microphone with name \"{1}\" found for `Microphone(device_index={0})`".format(
