@@ -14,8 +14,8 @@ def CleanUp(text: str):
 def StringUp(tokens):
     text = []
     for token in tokens:
-        if isinstance(token, Parser.StatementNode):
-            text.append(StringUp(token.tokens))
+        if isinstance(token, list):
+            text.append(StringUp(token))
             continue
         
         if token.type == Lexer.TOKEN_TYPES['p']:

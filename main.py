@@ -18,10 +18,16 @@ for file in os.listdir('./Commands'):
 
 intent = Intent("Commands.json", Extension.get_commands())
 
+print("Taking input!")
 while True:
     try:
-        #text = Voice.TakeVoice().lower()
-        text = input("> ").lower()
+        if Settings.get_setting('voice') == True:
+            text = Voice.TakeVoice().lower()
+        else:
+            text = input("> ").lower()
+        
+        if len(text) > 0:
+            print(text)
     except KeyboardInterrupt:
         break
     
@@ -35,8 +41,8 @@ while True:
         parsed, error = Parser.run(tokens)
         
         response_question = None
-        if not error and parsed != None and parsed.get('Command') != None:
-            response_question = StringUp(parsed['Command'].tokens)
+        if error == None and parsed != None and parsed.get('Command') != None:
+            response_question = StringUp(parsed['Command'])
         else:
             Voice.TalkVoice('', True, True)
             
@@ -48,14 +54,14 @@ while True:
             text = CleanUp(response_command)
             tokens = Lexer.run(text)
             parsed, error = Parser.run(tokens)
-            response_command = StringUp(parsed['Command'].tokens)
+            response_command = StringUp(parsed['Command'])
         
         
         result = intent.request(response_question)
         if result == None:
             for name, module in Extension.get_modules().items():
                 if hasattr(module, 'VoiceAssert') and getattr(module, 'VoiceAssert')(response_question) == True:
-                    Extension.get_commands()[name]([*parsed['Command'].tokens])
+                    Extension.get_commands()[name]([*parsed['Command']])
                     break
                 
     

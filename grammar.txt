@@ -1,2 +1,0 @@
-Start: SentenceStart, Name.
-Command: Any - (SentenceStart + Name).

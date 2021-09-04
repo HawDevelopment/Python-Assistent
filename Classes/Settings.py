@@ -6,6 +6,7 @@ default_settings = {
     'voice': True,
     'voice rate': 150,
     'text input': True,
+    'device index': None
 }
 
 settings = default_settings.copy()

@@ -4,7 +4,7 @@ from Classes.TimeOfDay import TimeOfDay
 import Classes.Settings as Settings
 
 r = sr.Recognizer()
-m = sr.Microphone(device_index=Settings.get_setting("device index"))
+m = sr.Microphone()
 engine = pyttsx3.init('sapi5')
 
 voices = engine.getProperty('voices')
@@ -19,10 +19,11 @@ with m as source:
     r.adjust_for_ambient_noise(source)
 
 def TakeVoice():
+    global r
     recognized_text = ""
     with m as source:
         try:
-            audio = r.listen(source, timeout=5, phrase_time_limit=7.5)
+            audio = r.listen(source, timeout=10, phrase_time_limit=10)
         except sr.WaitTimeoutError:
             print("Timeout")
             return ""
@@ -30,7 +31,7 @@ def TakeVoice():
         try:
             recognized_text = r.recognize_google(audio)
         except sr.UnknownValueError:
-            print("Unkown value error!")
+            r = sr.Recognizer()
         except sr.RequestError as e:
             print("Could not request: {0}".format(e))
         

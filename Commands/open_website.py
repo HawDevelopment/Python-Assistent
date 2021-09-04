@@ -7,4 +7,4 @@ def VoiceCommand(tokens):
     web.open("www." + tokens[0].word + ".com")
 
 def VoiceAssert(text: str):
-    return text.startswith('open') and not (text.endswith('on google') or text.endswith('on google jarvis'))
+    return text.startswith('open')

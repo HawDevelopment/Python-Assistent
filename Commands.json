@@ -5,6 +5,8 @@
       "patterns": [
         "how are you doing",
         "how are you doing jarvis",
+        "how you doing",
+        "how you doing jarvis",
         "whats up",
         "whats up jarvis",
         "hows it going",
@@ -61,11 +63,6 @@
     {
       "tag": "search",
       "patterns": ["WHO_WOLD_EVER_SAY_THIS?"],
-      "responses": [""]
-    },
-    {
-      "tag": "google",
-      "patterns": ["WHO_WOLD_EVER_SAY_THIS"],
       "responses": [""]
     }
   ]

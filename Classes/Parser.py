@@ -5,30 +5,9 @@
 
 from nltk.util import pr
 import Classes.Lexer as Lexer
-from Classes.Error import *
 
 SENTENCE_START = 'hello hi godday godevening godmorning hey'
 SENTENCE_END = '.?!'
-
-class WordNode():
-    def __init__(self, token):
-        self.token = token
-    
-    def __str__(self) -> str:
-        return 'WordNode({0})'.format(self.token)
-    
-    def __repr__(self) -> str:
-        return self.__str__()
-
-class StatementNode:
-    def __init__(self, *tokens):
-        self.tokens = tokens
-    
-    def __str__(self) -> str:
-        return 'StatementNode[{0}]'.format(str(self.tokens))
-    
-    def __repr__(self) -> str:
-        return self.__str__()
     
 class ParserResult:
     def __init__(self, node = None, error = None) -> None:
@@ -44,26 +23,20 @@ class ParserResult:
     def Succes(node: any):
         return ParserResult(node, None)
     
-    def Error(error: ParserError):
-        return ParserResult(None, error)
+    def Error(message: str):
+        return ParserResult(None, message)
     
     def NotFound():
         return ParserResult()
-    
-    def Import(res):
-        return res.node, res
         
     def Eval(self):
-        if isinstance(self.error, Error):
+        if self.error != None:
             return self.error
         else:
             return self.node
     
     def is_error(self):
-        return self.error is not None and isinstance(self.error, ParserError)
-    
-    def is_level(self, level):
-        return self.is_error() and self.error.level == level
+        return self.error != None
         
 
 class ParserTypes:
@@ -73,19 +46,17 @@ class ParserTypes:
         types = (Lexer.TOKEN_TYPES['n'], Lexer.TOKEN_TYPES['uw'], Lexer.TOKEN_TYPES['n'])
         
         if not next_token:
-            return ParserResult.Error(ParserError("Not enough tokens!", 'warn'))
-        
-        if (token.word.lower() or next_token.word.lower()) not in SENTENCE_START:
-            return ParserResult.Error(ParserError("Expected a sentence!", 'warn'))
-        
-        if (token.type and next_token.type) not in types:
-            return ParserResult.Error(ParserError("Expected word to be in start!", 'error'))
+            return ParserResult.Error("Not enough tokens!")
+        elif (token.word.lower() or next_token.word.lower()) not in SENTENCE_START:
+            return ParserResult.Error("Expected a sentence!")
+        elif (token.type and next_token.type) not in types:
+            return ParserResult.Error("Expected word to be in start!")
         
         if parser.next() and parser.next().type == Lexer.TOKEN_TYPES['p']:
             parser.advance()
         
         parser.advance()
-        return ParserResult.Succes(StatementNode(token, next_token))
+        return ParserResult.Succes([token, next_token])
     
     def Command(parser):
         if parser.current_token == None:
@@ -97,7 +68,7 @@ class ParserTypes:
             parser.advance()
         
         parser.advance()
-        return ParserResult.Succes(StatementNode(*statement)) if len(statement) > 0 else ParserResult.Error(ParserError("Expected a command!", 'error'))
+        return ParserResult.Succes(statement) if len(statement) > 0 else ParserResult.Error("Expected a command!")
         
 
 #
@@ -127,7 +98,7 @@ class Parser():
     def run(self):
         
         if len(self.tokens) == 0:
-            return None, ParserError("No tokens!")
+            return None, "No tokens!"
         
         ret = {}
         for index, func in commands.items():
@@ -135,15 +106,13 @@ class Parser():
                 break
             
             result = func(self)
-            if result.is_level('error'):
-                return None, result.Eval()
-            elif result.is_error():
+            if result.is_error():
                 continue
             
             ret[index] = result.Eval()
         
         if len(ret) == 0:
-            return None, ParserError('No output!')
+            return None, 'No output!'
         
         return ret, None
 

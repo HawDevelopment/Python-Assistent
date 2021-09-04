@@ -17,4 +17,8 @@ def VoiceCommand(tokens: list):
     Voice.TalkVoice("Searched, " + text + " on google, sir.", False)
 
 def VoiceAssert(text: str):
-    return (text.startswith("search") or text.startswith("open")) and (text.endswith("on google") or text.endswith("on google jarvis"))
+    if text.startswith("search"):
+        return True
+    elif text.startswith("open") and (text.endswith("on google") or text.endswith("on google jarvis")):
+        return True
+    return False
